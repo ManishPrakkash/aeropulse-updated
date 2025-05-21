@@ -1,0 +1,95 @@
+/* Basic styling for the application */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.border-b {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.h-16 {
+  height: 4rem;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.mx-6 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.p-8 {
+  padding: 2rem;
+}
+
+.pt-6 {
+  padding-top: 1.5rem;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.space-y-2 > * + * {
+  margin-top: 0.5rem;
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.tracking-tight {
+  letter-spacing: -0.025em;
+}
+
+.bg-background {
+  background-color: white;
+}
+
+.text-foreground {
+  color: #111827;
+}
