@@ -6,10 +6,8 @@ import {
   Clock,
   Download,
   Filter,
-  LineChart,
   Wind,
-  Search,
-  User
+  Search
 } from "lucide-react";
 import {
   Card,
@@ -45,8 +43,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import {
   Area,
-  AreaChart,
   Bar,
+  BarChart,
   CartesianGrid,
   ComposedChart,
   Legend,
@@ -302,7 +300,7 @@ export function HistoryPage() {
                     contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '0.5rem' }}
                     labelStyle={{ color: '#e5e7eb' }}
                   />
-                  <Bar dataKey="value" nameKey="name" />
+                  <Bar dataKey="value" name="Patients" />
                 </BarChart>
               </ResponsiveContainer>
             </div>

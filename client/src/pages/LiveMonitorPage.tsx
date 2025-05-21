@@ -12,14 +12,15 @@ export function LiveMonitorPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [wheezingLevel, setWheezingLevel] = useState(0);
   const [sessionDuration, setSessionDuration] = useState(0);
-  const [recordingStartTime, setRecordingStartTime] = useState<Date | null>(null);
+  // Using setRecordingStartTime in startRecording function
+  const [, setRecordingStartTime] = useState<Date | null>(null);
   const [historicalData, setHistoricalData] = useState<{ time: string; level: number }[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const animationFrameRef = useRef<number>();
-  const timerRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
+  const timerRef = useRef<number | undefined>(undefined);
 
   const startRecording = async () => {
     try {
@@ -39,11 +40,11 @@ export function LiveMonitorPage() {
       const interval = setInterval(() => {
         const newLevel = Math.random() * 100;
         setWheezingLevel(newLevel);
-        
+
         // Add to historical data
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        
+
         setHistoricalData(prev => {
           const newData = [...prev, { time: timeString, level: newLevel }];
           // Keep only the last 20 data points
@@ -59,7 +60,10 @@ export function LiveMonitorPage() {
         setSessionDuration(prev => prev + 1);
       }, 1000);
 
-      timerRef.current = window.setInterval(interval);
+      timerRef.current = window.setInterval(() => {
+        // This is a placeholder for the interval function
+        console.log('Interval running');
+      }, 1000);
       return () => {
         clearInterval(interval);
         clearInterval(durationTimer);
@@ -109,11 +113,11 @@ export function LiveMonitorPage() {
       analyserRef.current.getByteTimeDomainData(dataArray);
       ctx.fillStyle = "rgb(15, 23, 42)"; // Dark blue background
       ctx.fillRect(0, 0, width, height);
-      
+
       // Draw grid lines
       ctx.lineWidth = 0.5;
       ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
-      
+
       // Horizontal grid lines
       for (let i = 0; i < height; i += 20) {
         ctx.beginPath();
@@ -121,7 +125,7 @@ export function LiveMonitorPage() {
         ctx.lineTo(width, i);
         ctx.stroke();
       }
-      
+
       // Vertical grid lines
       for (let i = 0; i < width; i += 20) {
         ctx.beginPath();
@@ -129,7 +133,7 @@ export function LiveMonitorPage() {
         ctx.lineTo(i, height);
         ctx.stroke();
       }
-      
+
       // Draw waveform
       ctx.lineWidth = 2;
       ctx.strokeStyle = wheezingLevel > 50 ? "#ef4444" : "#22c55e";
@@ -153,7 +157,7 @@ export function LiveMonitorPage() {
 
       ctx.lineTo(width, height / 2);
       ctx.stroke();
-      
+
       // Add glow effect for high wheezing levels
       if (wheezingLevel > 50) {
         ctx.shadowBlur = 10;
@@ -161,7 +165,7 @@ export function LiveMonitorPage() {
         ctx.stroke();
         ctx.shadowBlur = 0;
       }
-      
+
       animationFrameRef.current = requestAnimationFrame(draw);
     };
 
@@ -200,7 +204,7 @@ export function LiveMonitorPage() {
         </Link>
         <h1 className="text-3xl font-bold">Live Breathing Monitor</h1>
       </div>
-      
+
       <div className="grid gap-6 md:grid-cols-3">
         <div className="md:col-span-2">
           <Card className="border-0 shadow-lg bg-gradient-to-br from-slate-900 to-slate-800">
@@ -221,9 +225,9 @@ export function LiveMonitorPage() {
                 <canvas ref={canvasRef} width={800} height={300} className="w-full h-full" />
               </div>
               <div className="flex justify-center mt-4">
-                <Button 
-                  size="lg" 
-                  onClick={isRecording ? stopRecording : startRecording} 
+                <Button
+                  size="lg"
+                  onClick={isRecording ? stopRecording : startRecording}
                   className={`w-40 ${isRecording ? 'bg-red-600 hover:bg-red-700' : 'bg-emerald-600 hover:bg-emerald-700'}`}
                 >
                   {isRecording ? (
@@ -242,7 +246,7 @@ export function LiveMonitorPage() {
             </CardContent>
           </Card>
         </div>
-        
+
         <div className="space-y-6">
           <Card className="border-0 shadow-lg">
             <CardHeader>
@@ -255,7 +259,7 @@ export function LiveMonitorPage() {
                     <span>Wheezing Level</span>
                     <span className="font-medium">{Math.round(wheezingLevel)}%</span>
                   </div>
-                  <Progress value={wheezingLevel} className="h-2" 
+                  <Progress value={wheezingLevel} className="h-2"
                     style={{
                       background: 'linear-gradient(to right, #22c55e, #eab308, #ef4444)',
                       maskImage: `linear-gradient(to right, #000 ${wheezingLevel}%, transparent ${wheezingLevel}%)`
@@ -267,7 +271,7 @@ export function LiveMonitorPage() {
                     <span>Severe</span>
                   </div>
                 </div>
-                
+
                 {wheezingLevel > 50 && (
                   <Alert variant="destructive" className="animate-pulse">
                     <AlertCircle className="h-4 w-4" />
@@ -275,7 +279,7 @@ export function LiveMonitorPage() {
                     <AlertDescription>High wheezing levels detected. Please check breathing pattern.</AlertDescription>
                   </Alert>
                 )}
-                
+
                 <div className="grid grid-cols-2 gap-2 mt-4">
                   <Button variant="outline" onClick={handleExportData} className="flex items-center">
                     <Download className="mr-2 h-4 w-4" />
@@ -289,7 +293,7 @@ export function LiveMonitorPage() {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card className="border-0 shadow-lg">
             <CardHeader>
               <CardTitle>Session Trend</CardTitle>
@@ -299,20 +303,20 @@ export function LiveMonitorPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={historicalData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis 
-                      dataKey="time" 
-                      tick={{ fontSize: 10 }} 
+                    <XAxis
+                      dataKey="time"
+                      tick={{ fontSize: 10 }}
                       tickFormatter={(value) => value.split(':')[0] + ':' + value.split(':')[1]}
                     />
                     <YAxis domain={[0, 100]} />
-                    <Tooltip 
+                    <Tooltip
                       contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '0.5rem' }}
                       labelStyle={{ color: '#e5e7eb' }}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="level" 
-                      stroke="hsl(var(--primary))" 
+                    <Line
+                      type="monotone"
+                      dataKey="level"
+                      stroke="hsl(var(--primary))"
                       strokeWidth={2}
                       dot={{ r: 2 }}
                       activeDot={{ r: 4 }}

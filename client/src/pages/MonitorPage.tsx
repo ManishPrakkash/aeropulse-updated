@@ -6,7 +6,7 @@ import { Button } from "../components/ui/button";
 import { Progress } from "../components/ui/progress";
 
 export function MonitorPage() {
-  const [patients, setPatients] = useState([
+  const [patients] = useState([
     { id: 1, name: "John Doe", age: 45, lastSession: "Today, 10:30 AM", status: "Stable", wheezingLevel: 25 },
     { id: 2, name: "Sarah Smith", age: 32, lastSession: "Yesterday", status: "Improving", wheezingLevel: 15 },
     { id: 3, name: "Robert Johnson", age: 58, lastSession: "3 days ago", status: "Needs attention", wheezingLevel: 65 },

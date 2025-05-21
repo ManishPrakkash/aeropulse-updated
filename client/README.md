@@ -1,54 +1,61 @@
-# React + TypeScript + Vite
+# Aeropulse - Respiratory Monitoring Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for monitoring and analyzing respiratory patterns, specifically designed for detecting and tracking wheezing levels.
 
-Currently, two official plugins are available:
+## Deployment Instructions for Vercel
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Option 1: Deploy from the Vercel Dashboard
 
-## Expanding the ESLint configuration
+1. Log in to your Vercel account at [vercel.com](https://vercel.com)
+2. Click "Add New" > "Project"
+3. Import your Git repository or upload the project files
+4. Configure the project with the following settings:
+   - Framework Preset: Vite
+   - Root Directory: `client`
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+5. Click "Deploy"
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Option 2: Deploy using Vercel CLI
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+1. Install Vercel CLI globally:
+   ```bash
+   npm install -g vercel
+   ```
+
+2. Navigate to the client directory:
+   ```bash
+   cd client
+   ```
+
+3. Run the deployment command:
+   ```bash
+   vercel
+   ```
+
+4. Follow the prompts to configure your deployment.
+
+## Environment Variables
+
+No environment variables are required for basic deployment.
+
+## Troubleshooting
+
+If you encounter any issues during deployment:
+
+1. Make sure Node.js version 18 or higher is being used
+2. Verify that all dependencies are correctly installed
+3. Check that the build process completes successfully locally
+4. Ensure the vercel.json file is correctly configured
+
+## Development
+
+To run the application locally:
+
+```bash
+cd client
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+The application will be available at http://localhost:5173/

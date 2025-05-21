@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Bell,
   BellOff,
-  Bluetooth,
   Cloud,
   Database,
   HardDrive,
@@ -12,8 +11,7 @@ import {
   Settings as SettingsIcon,
   Smartphone,
   User,
-  Volume2,
-  Wifi
+  Volume2
 } from "lucide-react";
 import {
   Card,

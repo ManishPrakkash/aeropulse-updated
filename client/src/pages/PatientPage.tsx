@@ -8,8 +8,7 @@ import {
   Filter,
   Wind,
   Plus,
-  Search,
-  User
+  Search
 } from "lucide-react";
 import {
   Card,
@@ -21,7 +20,7 @@ import {
 } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
