@@ -1,0 +1,22 @@
+/* Hide Vercel deployment toolbar */
+[data-vercel-toolbar],
+[data-vercel-badge],
+[data-vercel-analytics],
+[data-vercel-speed-insights],
+[data-vercel-feedback],
+[data-vercel-toolbar-button] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}

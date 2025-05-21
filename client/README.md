@@ -14,7 +14,8 @@ A modern web application for monitoring and analyzing respiratory patterns, spec
    - Root Directory: `client`
    - Build Command: `npm run build`
    - Output Directory: `dist`
-5. Click "Deploy"
+5. In the project settings, go to "General" and disable "Deployment Toolbar"
+6. Click "Deploy"
 
 ### Option 2: Deploy using Vercel CLI
 
@@ -38,6 +39,15 @@ A modern web application for monitoring and analyzing respiratory patterns, spec
 ## Environment Variables
 
 No environment variables are required for basic deployment.
+
+## Vercel Deployment Toolbar
+
+The Vercel deployment toolbar has been disabled in this application through multiple methods:
+
+1. The `vercel.json` file includes `"feedbackEnabled": false` to disable the toolbar
+2. A meta tag `<meta name="vercel-deployment-toolbar" content="false" />` is added to the HTML
+3. Custom CSS in `src/styles/vercel-override.css` hides any Vercel toolbar elements
+4. A custom script in `public/_document.js` removes the toolbar if it appears
 
 ## Troubleshooting
 
