@@ -8,8 +8,5 @@
   "installCommand": "npm install",
   "github": {
     "silent": true
-  },
-  "deploymentSettings": {
-    "feedbackEnabled": false
   }
 }

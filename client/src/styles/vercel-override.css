@@ -4,7 +4,16 @@
 [data-vercel-analytics],
 [data-vercel-speed-insights],
 [data-vercel-feedback],
-[data-vercel-toolbar-button] {
+[data-vercel-toolbar-button],
+[class*="vercel-toolbar"],
+[class*="vercel-badge"],
+[id*="vercel-toolbar"],
+[id*="vercel-badge"],
+div[style*="z-index: 2147483647"],
+div[style*="bottom: 0px"][style*="position: fixed"],
+div[style*="bottom: 0"][style*="position: fixed"][style*="z-index: 9999"],
+iframe[src*="vercel.com"],
+iframe[src*="vercel.app"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
@@ -19,4 +28,11 @@
   margin: -1px !important;
   padding: 0 !important;
   border: 0 !important;
+}
+
+/* Additional selectors to target Vercel elements */
+body > div:last-child[style*="position: fixed"][style*="bottom: 0"],
+body > div:last-child[style*="z-index: 2147483647"] {
+  display: none !important;
+  visibility: hidden !important;
 }
