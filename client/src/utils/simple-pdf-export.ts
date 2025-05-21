@@ -8,7 +8,7 @@ export const simplePdfExport = (
   patientData: Patient | null,
   sessionData: SessionData[],
   sessionInfo?: SessionInfo | null
-): void => {
+): boolean => {
   try {
     console.log("Starting simple PDF export...");
 

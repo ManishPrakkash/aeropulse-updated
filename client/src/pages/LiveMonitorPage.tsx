@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle, ArrowLeft, Download, FileText, Mic, PauseCircle, Share2 } from "lucide-react";
+import { AlertCircle, ArrowLeft, FileText, Mic, PauseCircle, Share2 } from "lucide-react";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { Link } from "react-router-dom";
 
@@ -22,12 +22,12 @@ export function LiveMonitorPage() {
   const [displayData, setDisplayData] = useState<SessionData[]>([]);
   const [completeSessionData, setCompleteSessionData] = useState<SessionData[]>([]);
 
-  const [baseWheezingLevel, setBaseWheezingLevel] = useState(30); // Base level for natural fluctuations
+  const [baseWheezingLevel] = useState(30); // Base level for natural fluctuations
   const [sessionActive, setSessionActive] = useState(false); // Track if a session has been started
 
   // Refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const chartRef = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<HTMLDivElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -323,7 +323,7 @@ export function LiveMonitorPage() {
           alert("PDF generated successfully using simplified export! Check your downloads folder.");
         } catch (simplePdfError) {
           console.error("Simple PDF export also failed:", simplePdfError);
-          alert(`Error generating PDF: ${pdfError.message}`);
+          alert("Error generating PDF. Both export methods failed.");
         }
       }
 
@@ -333,7 +333,7 @@ export function LiveMonitorPage() {
       }
     } catch (error) {
       console.error("Error in export function:", error);
-      alert(`An error occurred while exporting data: ${error.message}`);
+      alert("An error occurred while exporting data. Please try again.");
     }
   };
 

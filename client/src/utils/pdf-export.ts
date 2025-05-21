@@ -6,9 +6,9 @@ import html2canvas from 'html2canvas';
 declare module 'jspdf' {
   interface jsPDF {
     autoTable: (options: any) => jsPDF;
-    lastAutoTable?: {
+    lastAutoTable: {
       finalY: number;
-    };
+    } | undefined;
   }
 }
 
@@ -52,10 +52,10 @@ export interface SessionInfo {
  * Export patient data and session data to PDF
  */
 export const exportToPDF = async (
-  patientId: number,
+  _patientId: number, // Prefixed with underscore to indicate it's not used
   patientData: Patient | null,
   sessionData: SessionData[],
-  chartRef: React.RefObject<HTMLDivElement>,
+  chartRef: React.RefObject<HTMLDivElement | null>,
   sessionInfo?: SessionInfo | null
 ) => {
   try {
