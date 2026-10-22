@@ -5,6 +5,7 @@ import { PatientPage } from './pages/PatientPage';
 import { HistoryPage } from './pages/HistoryPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { LiveMonitorPage } from './pages/LiveMonitorPage';
+import { ClyHealthApp } from './clyhealth/ClyHealthApp';
 import './index.css';
 import './styles.css';
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route path="/live-monitor" element={<LiveMonitorPage />} />
+        <Route path="/clyhealth/*" element={<ClyHealthApp />} />
       </Routes>
     </Router>
   );

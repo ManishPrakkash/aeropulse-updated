@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Bell,
   BellOff,
+  Bluetooth,
   Cloud,
   Database,
   HardDrive,
@@ -10,9 +11,11 @@ import {
   Save,
   Settings as SettingsIcon,
   Smartphone,
+  Usb,
   User,
   Volume2
 } from "lucide-react";
+import { esp32Service, ConnectionStatus } from "../services/esp32-service";
 import {
   Card,
   CardContent,
@@ -42,12 +45,38 @@ export function SettingsPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [autoSave, setAutoSave] = useState(true);
   const [cloudSync, setCloudSync] = useState(true);
-  const [bluetoothEnabled, setBluetoothEnabled] = useState(false);
+  const [bluetoothEnabled, setBluetoothEnabled] = useState(esp32Service.getStatus() === 'connected');
+  const [esp32Status, setEsp32Status] = useState<ConnectionStatus>(esp32Service.getStatus());
+  const [portInfo, setPortInfo] = useState<string>(esp32Service.getPortInfo());
   const [threshold, setThreshold] = useState("50");
   const [sampleRate, setSampleRate] = useState("44100");
   const [bufferSize, setBufferSize] = useState("2048");
   const [volume, setVolume] = useState("80");
   const [dataRetention, setDataRetention] = useState("90");
+
+  useEffect(() => {
+    return esp32Service.onStatus((status) => {
+      setEsp32Status(status);
+      setPortInfo(esp32Service.getPortInfo());
+      setBluetoothEnabled(status === 'connected');
+    });
+  }, []);
+
+  const handleToggleBluetooth = async (checked: boolean) => {
+    setBluetoothEnabled(checked);
+    if (checked) {
+      try {
+        await esp32Service.connectWebSerial(115200);
+      } catch (err: any) {
+        if (err.name !== 'NotFoundError') {
+          alert(`Serial Connection Error: ${err.message}`);
+        }
+        setBluetoothEnabled(false);
+      }
+    } else {
+      await esp32Service.disconnect();
+    }
+  };
 
   const handleSaveSettings = () => {
     // In a real app, this would save the settings to a database or local storage
@@ -142,18 +171,44 @@ export function SettingsPage() {
 
                 <Separator />
 
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <Label htmlFor="bluetooth">Bluetooth Connectivity</Label>
-                    <p className="text-sm text-muted-foreground">
-                      Enable Bluetooth for external devices
-                    </p>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label htmlFor="bluetooth" className="flex items-center gap-1.5 font-semibold">
+                        <Bluetooth className="h-4 w-4 text-primary" />
+                        <Usb className="h-4 w-4 text-primary" />
+                        ESP32 Multi-Sensor Telemetry
+                      </Label>
+                      <p className="text-sm text-muted-foreground">
+                        Connect over USB Serial or Classic Bluetooth COM port (115200 baud)
+                      </p>
+                    </div>
+                    <Switch
+                      id="bluetooth"
+                      checked={bluetoothEnabled}
+                      onCheckedChange={handleToggleBluetooth}
+                    />
                   </div>
-                  <Switch
-                    id="bluetooth"
-                    checked={bluetoothEnabled}
-                    onCheckedChange={setBluetoothEnabled}
-                  />
+
+                  {/* ESP32 Hardware Status details */}
+                  <div className="p-3 rounded-lg bg-muted/60 border space-y-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Status:</span>
+                      <span className={`font-semibold ${esp32Status === 'connected' ? 'text-emerald-500' : 'text-slate-500'}`}>
+                        {esp32Status === 'connected' ? `Connected (${portInfo})` : 'Disconnected'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Baud Rate:</span>
+                      <span className="font-mono">115200</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-muted-foreground">Hardware Pinout:</span>
+                      <span className="font-mono text-[11px] text-primary">
+                        M1: GPIO12 | M2: GPIO13 | HB: GPIO14 | MQ: GPIO26
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>

@@ -4,15 +4,19 @@
   "description": "Aeropulse Respiratory Monitoring System",
   "scripts": {
     "build": "cd client && npm install --force && npm run build",
-    "start": "cd client && npm run dev"
+    "start": "cd client && npm run dev",
+    "bridge": "node bridge.js"
   },
   "engines": {
     "node": ">=16.0.0"
   },
   "dependencies": {
+    "@serialport/parser-readline": "^13.0.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
-    "jspdf-autotable": "^5.0.2"
+    "jspdf-autotable": "^5.0.2",
+    "serialport": "^13.0.0",
+    "ws": "^8.22.0"
   },
   "private": true
 }

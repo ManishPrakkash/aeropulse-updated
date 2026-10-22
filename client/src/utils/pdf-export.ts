@@ -36,6 +36,11 @@ export interface Patient {
 export interface SessionData {
   time: string;
   level: number;
+  sound1?: number;
+  sound2?: number;
+  pulse?: number;
+  heartRate?: number;
+  gasStatus?: string;
 }
 
 // Define the session info type
@@ -46,6 +51,9 @@ export interface SessionInfo {
   averageWheezingLevel: number;
   maxWheezingLevel: number;
   currentStatus: string;
+  averageHeartRate?: number;
+  gasAlertsDetected?: number;
+  sourceDevice?: string;
 }
 
 /**
